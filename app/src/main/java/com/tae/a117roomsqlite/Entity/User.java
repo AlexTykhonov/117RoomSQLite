@@ -6,13 +6,13 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity (tableName = "users")
 public class User {
 
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     private long id;
     private String name;
     private int year;
 
 
-    User(long id, String name, int year){
+    public User(long id, String name, int year){
         this.id = id;
         this.name = name;
         this.year = year;

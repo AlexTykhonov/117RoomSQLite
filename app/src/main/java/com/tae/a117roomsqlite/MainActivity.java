@@ -7,6 +7,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.tae.a117roomsqlite.App.App;
+import com.tae.a117roomsqlite.Appdatabase.AppDatabase;
+import com.tae.a117roomsqlite.Dao.UserDao;
 import com.tae.a117roomsqlite.Entity.User;
 
 import java.util.List;
@@ -15,17 +18,23 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView userList;
     ArrayAdapter<User> arrayAdapter;
+    UserDao userDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //
+        userDao = App.getInstance().getDatabase().userDao();
+        //
         userList = (ListView)findViewById(R.id.list);
-
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 User user =arrayAdapter.getItem(position);
+
+                System.out.println(user + "USER !!!!" + user.getId());
+
                 if(user!=null) {
                     Intent intent = new Intent(getApplicationContext(), UserActivity.class);
                     intent.putExtra("id", user.getId());
@@ -40,14 +49,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        DatabaseAdapter adapter = new DatabaseAdapter(this);
-        adapter.open();
+//        DatabaseAdapter adapter = new DatabaseAdapter(this);
+//        adapter.open();
 
-        List<User> users = adapter.getUsers();
+        //List<User> users = adapter.getUsers();
+        List<User> users = userDao.getAll();
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, users);
         userList.setAdapter(arrayAdapter);
-        adapter.close();
+      //  adapter.close();
     }
     // по нажатию на кнопку запускаем UserActivity для добавления данных
     public void add(View view){
