@@ -7,9 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.tae.a117roomsqlite.R;
-import com.tae.a117roomsqlite.User;
-import com.tae.a117roomsqlite.UserActivity;
+import com.tae.a117roomsqlite.Entity.User;
 
 import java.util.List;
 
@@ -21,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         userList = (ListView)findViewById(R.id.list);
 

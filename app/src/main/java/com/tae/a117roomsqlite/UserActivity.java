@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
- 
+
+import com.tae.a117roomsqlite.Entity.User;
+
 public class UserActivity extends AppCompatActivity {
  
     private EditText nameBox;

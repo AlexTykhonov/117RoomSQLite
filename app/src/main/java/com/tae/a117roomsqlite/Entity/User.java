@@ -1,11 +1,17 @@
-package com.tae.a117roomsqlite;
+package com.tae.a117roomsqlite.Entity;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity (tableName = "users")
 public class User {
- 
+
+    @PrimaryKey
     private long id;
     private String name;
     private int year;
- 
+
+
     User(long id, String name, int year){
         this.id = id;
         this.name = name;

@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.tae.a117roomsqlite.Entity.User;
+
 import java.util.ArrayList;
 import java.util.List;
  

@@ -6,26 +6,26 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.tae.a117roomsqlite.Entity.Employee;
+import com.tae.a117roomsqlite.Entity.User;
 
 import java.util.List;
 
 @Dao
-public interface EmployeeDao {
+public interface UserDao {
  
-   @Query("SELECT * FROM employee")
-   List<Employee> getAll();
+   @Query("SELECT * FROM users")
+   List<User> getAll();
  
-   @Query("SELECT * FROM employee WHERE id = :id")
-   Employee getById(long id);
+   @Query("SELECT * FROM users WHERE id = :id")
+   User getById(long id);
  
    @Insert
-   void insert(Employee employee);
+   void insert(User user);
  
    @Update
-   void update(Employee employee);
+   void update(User user);
  
    @Delete
-   void delete(Employee employee);
+   void delete(User user);
  
 }

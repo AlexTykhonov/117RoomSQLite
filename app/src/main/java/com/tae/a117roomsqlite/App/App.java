@@ -3,7 +3,7 @@ package com.tae.a117roomsqlite.App;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.tae.Appdatabase.AppDatabase;
+import com.tae.a117roomsqlite.Appdatabase.AppDatabase;
 
 public class App extends Application {
  
