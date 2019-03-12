@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         userList = (ListView)findViewById(R.id.list);
 
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
