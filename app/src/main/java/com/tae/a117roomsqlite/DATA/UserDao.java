@@ -1,12 +1,13 @@
-package com.tae.a117roomsqlite.Dao;
+package com.tae.a117roomsqlite.DATA;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.tae.a117roomsqlite.Entity.User;
+import com.tae.a117roomsqlite.DATA.User;
 
 import java.util.List;
 
@@ -14,10 +15,10 @@ import java.util.List;
 public interface UserDao {
  
    @Query("SELECT * FROM users")
-   List<User> getAll();
+   LiveData<List<User>> getAll();
  
    @Query("SELECT * FROM users WHERE id = :id")
-   User getById(long id);
+   LiveData<User> getById(long id);
  
    @Insert
    void insert(User user);

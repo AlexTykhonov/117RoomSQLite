@@ -1,4 +1,4 @@
-package com.tae.a117roomsqlite;
+package com.tae.a117roomsqlite.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.tae.a117roomsqlite.App.App;
-import com.tae.a117roomsqlite.Appdatabase.AppDatabase;
-import com.tae.a117roomsqlite.Dao.UserDao;
-import com.tae.a117roomsqlite.Entity.User;
+import com.tae.a117roomsqlite.DI.AppModule;
+import com.tae.a117roomsqlite.DI.DaggerAppComponent;
+import com.tae.a117roomsqlite.DI.RoomModule;
+import com.tae.a117roomsqlite.repository.AppDatabase;
+import com.tae.a117roomsqlite.DATA.UserDao;
+import com.tae.a117roomsqlite.DATA.User;
+import com.tae.a117roomsqlite.R;
+import com.tae.a117roomsqlite.repository.UserDataSource;
+
+import javax.inject.Inject;
 
 public class UserActivity extends AppCompatActivity {
  
@@ -19,6 +26,9 @@ public class UserActivity extends AppCompatActivity {
     private Button delButton;
     private Button saveButton;
     UserDao userDao;
+
+    @Inject
+    UserDataSource userDataSource;
 
 //    private DatabaseAdapter adapter;
     private long userId=0;
@@ -33,6 +43,13 @@ public class UserActivity extends AppCompatActivity {
         userDao= adb.userDao();
 
         //
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .build()
+                .inject(this);
+        System.out.println("///////////////////////////////" + userDataSource);
+
 
         nameBox = (EditText) findViewById(R.id.name);
         yearBox = (EditText) findViewById(R.id.year);
@@ -50,10 +67,10 @@ public class UserActivity extends AppCompatActivity {
          //   adapter.open();
             //  User user = adapter.getUser(userId);
 
-            User user = userDao.getById(userId);
+          //  User user = (User) userDao.getById(userId);
 
-            nameBox.setText(user.getName());
-            yearBox.setText(String.valueOf(user.getYear()));
+//            nameBox.setText(user.getName());
+//            yearBox.setText(String.valueOf(user.getYear()));
          //   adapter.close();
         } else {
             // скрываем кнопку удаления
@@ -70,11 +87,14 @@ public class UserActivity extends AppCompatActivity {
     //    adapter.open();
         if (userId > 0) {
     //        adapter.update(user);
-            userDao.update(user);
+        //    userDao.update(user);
 
         } else {
      //       adapter.insert(user);
-            userDao.insert(user);
+        //    userDao.insert(user);
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+user);
+            userDataSource.save(user);
+
 
         }
      //   adapter.close();
@@ -85,7 +105,7 @@ public class UserActivity extends AppCompatActivity {
 //        adapter.open();
 //        adapter.delete(userId);
 //        adapter.close();
-        userDao.delete(userDao.getById(userId));
+       // userDao.delete((User) userDao.getById(userId));
         goHome();
     }
     private void goHome(){
