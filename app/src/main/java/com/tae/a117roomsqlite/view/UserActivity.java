@@ -1,6 +1,7 @@
 package com.tae.a117roomsqlite.view;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,7 @@ public class UserActivity extends AppCompatActivity {
     private Button delButton;
     private Button saveButton;
     UserDao userDao;
-
+    SaveUser saveUser;
     @Inject
     UserDataSource userDataSource;
 
@@ -41,7 +42,6 @@ public class UserActivity extends AppCompatActivity {
 
         AppDatabase adb = App.getInstance().getDatabase();
         userDao= adb.userDao();
-
         //
         DaggerAppComponent.builder()
                 .appModule(new AppModule(getApplication()))
@@ -50,6 +50,7 @@ public class UserActivity extends AppCompatActivity {
                 .inject(this);
         System.out.println("///////////////////////////////" + userDataSource);
 
+        saveUser = new SaveUser();
 
         nameBox = (EditText) findViewById(R.id.name);
         yearBox = (EditText) findViewById(R.id.year);
@@ -93,8 +94,8 @@ public class UserActivity extends AppCompatActivity {
      //       adapter.insert(user);
         //    userDao.insert(user);
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+user);
-            userDataSource.save(user);
 
+    saveUser.execute(user);
 
         }
      //   adapter.close();
@@ -113,5 +114,14 @@ public class UserActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+    }
+
+    public class SaveUser extends AsyncTask <User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... user) {
+            userDataSource.save(user[0]);
+            return null;
+        }
     }
 }

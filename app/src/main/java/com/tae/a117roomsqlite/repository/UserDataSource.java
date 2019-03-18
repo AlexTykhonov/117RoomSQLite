@@ -28,5 +28,6 @@ public class UserDataSource {
 
     public void save (User user) {
         userDao.insert(user);
+        System.out.println(user + "                                        from method SAVE      +");
     }
 }
