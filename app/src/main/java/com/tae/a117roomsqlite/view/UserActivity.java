@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tae.a117roomsqlite.App.App;
 import com.tae.a117roomsqlite.DI.AppModule;
@@ -33,6 +34,8 @@ public class UserActivity extends AppCompatActivity {
 
 //    private DatabaseAdapter adapter;
     private long userId=0;
+    public User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,15 +67,10 @@ public class UserActivity extends AppCompatActivity {
         }
         // если 0, то добавление
         if (userId > 0) {
-         // получаем элемент по id из бд
-         //   adapter.open();
-            //  User user = adapter.getUser(userId);
 
-          //  User user = (User) userDao.getById(userId);
+          FindById findById = new FindById();
+          findById.execute(userId);
 
-//            nameBox.setText(user.getName());
-//            yearBox.setText(String.valueOf(user.getYear()));
-         //   adapter.close();
         } else {
             // скрываем кнопку удаления
             delButton.setVisibility(View.GONE);
@@ -84,44 +82,61 @@ public class UserActivity extends AppCompatActivity {
         String name = nameBox.getText().toString();
         int year = Integer.parseInt(yearBox.getText().toString());
         User user = new User(userId, name, year);
- 
-    //    adapter.open();
+
         if (userId > 0) {
-    //        adapter.update(user);
-        //    userDao.update(user);
-
-        } else {
-     //       adapter.insert(user);
-        //    userDao.insert(user);
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+user);
-
-    saveUser.execute(user);
-
+        UpdateUser user1 = new UpdateUser();
+        user1.execute(user);
         }
-     //   adapter.close();
+
+        else {
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+user);
+        saveUser.execute(user);
+        }
         goHome();
-    }
+        }
+
     public void delete(View view){
- 
-//        adapter.open();
-//        adapter.delete(userId);
-//        adapter.close();
-       // userDao.delete((User) userDao.getById(userId));
+
         goHome();
     }
     private void goHome(){
         // переход к главной activity
         Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+     //   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
-    public class SaveUser extends AsyncTask <User, Void, Void> {
 
+    public class SaveUser extends AsyncTask <User, Void, Void> {
         @Override
         protected Void doInBackground(User... user) {
             userDataSource.save(user[0]);
             return null;
         }
     }
+
+    public class UpdateUser extends AsyncTask<User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... users) {
+            userDataSource.update(users[0]);
+            return null;
+        }
+    }
+
+
+    public class FindById extends AsyncTask <Long, Void, User> {
+        @Override
+        protected User doInBackground(Long... longs) {
+            return userDataSource.findById(longs[0]);
+        }
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+            nameBox.setText(user.getName());
+            yearBox.setText(String.valueOf(user.getYear()));
+        }
+    }
+
+
 }

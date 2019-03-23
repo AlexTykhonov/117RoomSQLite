@@ -33,15 +33,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //
-     //   userDao = App.getInstance().getDatabase().userDao();
-        //
+
         DaggerAppComponent.builder()
                 .appModule(new AppModule(getApplication()))
                .roomModule(new RoomModule(getApplication()))
                 .build()
               .inject(this);
-        System.out.println("+++++++++++++++++++++" + userDataSource);
+
         userList = (ListView)findViewById(R.id.list);
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,24 +62,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-//        DatabaseAdapter adapter = new DatabaseAdapter(this);
-//        adapter.open();
 
-        //List<User> users = adapter.getUsers();
-        //List<User> users = userDao.getAll();
        final ArrayList<User> users = new ArrayList<>();
        userDataSource.findAll().observe(this, new Observer<List<User>>() {
            @Override
            public void onChanged(@Nullable List<User> userlist) {
                users.addAll(userlist);
 
-               System.out.println(users+"$$$$$$$$$$$$$$$$$$$$$$$");
            }
        });
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, users);
         userList.setAdapter(arrayAdapter);
-      //  adapter.close();
+
     }
     // по нажатию на кнопку запускаем UserActivity для добавления данных
     public void add(View view){

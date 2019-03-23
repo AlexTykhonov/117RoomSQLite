@@ -18,7 +18,7 @@ public class UserDataSource {
         this.userDao = userDao;
     }
 
-    public LiveData<User> findById (long id) {
+    public User findById (Long id) {
         return userDao.getById(id);
     }
 
@@ -29,5 +29,9 @@ public class UserDataSource {
     public void save (User user) {
         userDao.insert(user);
         System.out.println(user + "                                        from method SAVE      +");
+    }
+
+    public void update (User user) {
+        userDao.update(user);
     }
 }
