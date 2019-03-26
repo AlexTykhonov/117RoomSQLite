@@ -15,7 +15,7 @@ import java.util.List;
 public interface UserDao {
  
    @Query("SELECT * FROM users")
-   LiveData<List<User>> getAll();
+   List<User> getAll();
  
    @Query("SELECT * FROM users WHERE id = :id")
    User getById(long id);

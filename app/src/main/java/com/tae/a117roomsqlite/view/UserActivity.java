@@ -32,7 +32,6 @@ public class UserActivity extends AppCompatActivity {
     @Inject
     UserDataSource userDataSource;
 
-//    private DatabaseAdapter adapter;
     private long userId=0;
     public User user;
 
@@ -54,12 +53,11 @@ public class UserActivity extends AppCompatActivity {
         System.out.println("///////////////////////////////" + userDataSource);
 
         saveUser = new SaveUser();
-
         nameBox = (EditText) findViewById(R.id.name);
         yearBox = (EditText) findViewById(R.id.year);
         delButton = (Button) findViewById(R.id.deleteButton);
         saveButton = (Button) findViewById(R.id.saveButton);
-      //  adapter = new DatabaseAdapter(this);
+
  
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -89,7 +87,6 @@ public class UserActivity extends AppCompatActivity {
         }
 
         else {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+user);
         saveUser.execute(user);
         }
         goHome();
@@ -97,8 +94,17 @@ public class UserActivity extends AppCompatActivity {
 
     public void delete(View view){
 
+        String name = nameBox.getText().toString();
+        int year = Integer.parseInt(yearBox.getText().toString());
+        User user = new User(userId, name, year);
+
+        DelUser delUser= new DelUser();
+        delUser.execute(user);
+
         goHome();
     }
+
+
     private void goHome(){
         // переход к главной activity
         Intent intent = new Intent(this, MainActivity.class);
@@ -135,6 +141,16 @@ public class UserActivity extends AppCompatActivity {
             super.onPostExecute(user);
             nameBox.setText(user.getName());
             yearBox.setText(String.valueOf(user.getYear()));
+
+        }
+    }
+
+    public class DelUser extends  AsyncTask<User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... users) {
+            userDataSource.delete(users[0]);
+            return null;
         }
     }
 

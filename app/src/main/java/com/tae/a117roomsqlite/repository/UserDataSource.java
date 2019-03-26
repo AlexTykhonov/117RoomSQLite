@@ -22,7 +22,7 @@ public class UserDataSource {
         return userDao.getById(id);
     }
 
-    public LiveData<List<User>> findAll () {
+    public List<User> findAll () {
         return userDao.getAll();
     }
 
@@ -33,5 +33,9 @@ public class UserDataSource {
 
     public void update (User user) {
         userDao.update(user);
+    }
+
+    public void delete (User user) {
+        userDao.delete(user);
     }
 }
