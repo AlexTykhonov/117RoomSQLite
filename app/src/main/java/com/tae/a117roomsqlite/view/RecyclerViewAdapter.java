@@ -2,6 +2,7 @@ package com.tae.a117roomsqlite.view;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.tae.a117roomsqlite.DATA.User;
 import com.tae.a117roomsqlite.R;
+import com.tae.a117roomsqlite.repository.ProductDiffUtilCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +75,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void setData(List<User> data) {
+
+        ProductDiffUtilCallback userDiffUtilCallback = new ProductDiffUtilCallback(getData(), data);
+        DiffUtil.DiffResult userDiffResult = DiffUtil.calculateDiff(userDiffUtilCallback);
         this.data = data;
-    notifyDataSetChanged();
+        userDiffResult.dispatchUpdatesTo(this);
+
     }
 }

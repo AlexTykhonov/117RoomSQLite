@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.tae.a117roomsqlite.DI.AppModule;
 import com.tae.a117roomsqlite.DI.DaggerAppComponent;
 import com.tae.a117roomsqlite.DI.RoomModule;
 import com.tae.a117roomsqlite.R;
+import com.tae.a117roomsqlite.repository.ProductDiffUtilCallback;
 import com.tae.a117roomsqlite.repository.UserDataSource;
 
 import java.util.ArrayList;
@@ -78,6 +80,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
             intent.putExtra("click", 25);
             startActivity(intent);
         }
+
+//        ProductDiffUtilCallback productDiffUtilCallback =
+//                new ProductDiffUtilCallback(recyclerViewAdapter.getData(), mainUsers);
+//        DiffUtil.DiffResult productDiffResult = DiffUtil.calculateDiff(productDiffUtilCallback);
+//        recyclerViewAdapter.setData(mainUsers);
+//        productDiffResult.dispatchUpdatesTo(recyclerViewAdapter);
+
     }
 
     public class FindAll extends AsyncTask <Void, Void, Void> {
