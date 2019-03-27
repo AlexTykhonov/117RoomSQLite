@@ -78,6 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         ProductDiffUtilCallback userDiffUtilCallback = new ProductDiffUtilCallback(getData(), data);
         DiffUtil.DiffResult userDiffResult = DiffUtil.calculateDiff(userDiffUtilCallback);
+         this.data.clear();
         this.data = data;
         userDiffResult.dispatchUpdatesTo(this);
 
